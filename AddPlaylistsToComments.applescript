@@ -1,10 +1,5 @@
-to join(aList, delim)
-	set originalTID to text item delimiters
-	set text item delimiters to delim
-	set joined to aList as text
-	set text item delimiters to originalTID
-	return joined
-end join
+tell application "Finder" to set helpersPath to ((container of (path to me) as text) & "Helpers.scpt")
+set helpers to (load script file helpersPath)
 
 tell application "iTunes" to set allTracks to every track
 set trackCount to count of allTracks
@@ -24,7 +19,7 @@ repeat with i from 1 to trackCount
 		end repeat
 		
 		if playlistComment is not {} then
-			set joinedList to my join(playlistComment, "/")
+			tell helpers to set joinedList to join(playlistComment, "/")
 			set comment of theTrack to joinedList
 		end if
 	end tell

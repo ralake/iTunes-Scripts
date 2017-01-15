@@ -58,3 +58,30 @@ on addTrackToiPod(theTrack, theiPod, thePlaylist, shouldDelete)
 		if shouldDelete then delete theTrack
 	end tell
 end addTrackToiPod
+
+on split(someText, delimiter)
+	set AppleScript's text item delimiters to delimiter
+	set someText to someText's text items
+	set AppleScript's text item delimiters to {""} --> restore delimiters to default value
+	return someText
+end split
+
+on join(aList, delim)
+	set originalTID to text item delimiters
+	set text item delimiters to delim
+	set joined to aList as text
+	set text item delimiters to originalTID
+	return joined
+end join
+
+on getMetaData(metadataKey, filePath)
+	try
+		return do shell script "xattr -p com.apple.metadata:" & metadataKey & " " & filePath
+	on error errMsg number errorNumber
+		return null
+	end try
+end getMetaData
+
+on setMetaData(metadataKey, value, filePath)
+	do shell script "xattr -w com.apple.metadata:" & metadataKey & " " & value & " " & filePath
+end setMetaData

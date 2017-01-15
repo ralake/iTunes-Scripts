@@ -1,9 +1,5 @@
-to split(someText, delimiter)
-	set AppleScript's text item delimiters to delimiter
-	set someText to someText's text items
-	set AppleScript's text item delimiters to {""} --> restore delimiters to default value
-	return someText
-end split
+tell application "Finder" to set helpersPath to ((container of (path to me) as text) & "Helpers.scpt")
+set helpers to (load script file helpersPath)
 
 tell application "iTunes" to set allTracks to every track whose comments is not ""
 tell application "iTunes" to set allPlaylists to name of user playlists
@@ -18,11 +14,9 @@ repeat with i from 1 to trackCount
 	tell application "iTunes"
 		set tracksComment to comment of theTrack
 		if tracksComment is not "" then
-			set tracksPlaylists to my split(tracksComment, "/")
+			tell helpers to set tracksPlaylists to split(tracksComment, "/")
 			repeat with playlistName in tracksPlaylists
-				-- creates a new playlist if it doesnt already exist
-				if playlistName is not in allPlaylists then set NewPlaylist to (make new user playlist with properties {name:playlistName})
-				-- adds the track to the playlist if it hasn't already been added
+				if playlistName is not in allPlaylists then make new user playlist with properties {name:playlistName}
 				duplicate theTrack to user playlist playlistName
 			end repeat
 		end if

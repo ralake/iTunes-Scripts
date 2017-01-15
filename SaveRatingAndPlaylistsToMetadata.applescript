@@ -1,6 +1,5 @@
-to setMetaData(key, value, filePath)
-	do shell script "xattr -w com.apple.metadata:" & key & " " & value & " " & filePath
-end setMetaData
+tell application "Finder" to set helpersPath to ((container of (path to me) as text) & "Helpers.scpt")
+set helpers to (load script file helpersPath)
 
 tell application "iTunes" to set allTracks to every track
 set trackCount to count of allTracks
@@ -17,8 +16,8 @@ repeat with i from 1 to trackCount
 		set trackLocation to location of theTrack
 		set trackPath to quoted form of POSIX path of trackLocation as string
 		
-		if trackRating is not 0 then my setMetaData("trackRating", trackRating, trackPath)
-		if trackPlaylists is not quoted form of "" then my setMetaData("trackPlaylists", trackPlaylists, trackPath)
+		if trackRating is not 0 then tell helpers to setMetaData("trackRating", trackRating, trackPath)
+		if trackPlaylists is not quoted form of "" then tell helpers to setMetaData("trackPlaylists", trackPlaylists, trackPath)
 	end tell
 	
 	set progress completed steps to i
