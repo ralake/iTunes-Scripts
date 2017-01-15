@@ -1,10 +1,5 @@
-set allTracks to {}
-set trackCount to 0
-
-tell application "iTunes"
-	set allTracks to every track whose grouping is not ""
-	set trackCount to count of allTracks
-end tell
+tell application "iTunes" to set allTracks to every track whose grouping is not ""
+set trackCount to count of allTracks
 
 set progress total steps to trackCount
 set progress description to "Convert grouping to rating..."
@@ -19,9 +14,7 @@ repeat with i from 1 to trackCount
 			set trackGrouping to grouping of currentTrack as number
 		end try
 		
-		if trackGrouping is not equal to 0 and trackGrouping is not equal to trackRating then
-			set rating of currentTrack to trackGrouping
-		end if
+		if trackGrouping is not equal to 0 and trackGrouping is not equal to trackRating then set rating of currentTrack to trackGrouping
 	end tell
 	
 	set progress completed steps to i

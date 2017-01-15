@@ -6,9 +6,16 @@ to join(aList, delim)
 	return joined
 end join
 
-tell application "iTunes"
-	set allTracks to every track
-	repeat with theTrack in allTracks
+tell application "iTunes" to set allTracks to every track
+set trackCount to count of allTracks
+
+set progress total steps to trackCount
+set progress description to "Saving playlists to comments..."
+
+repeat with i from 1 to trackCount
+	set theTrack to item i of allTracks
+	
+	tell application "iTunes"
 		set tracksPlaylists to the playlists of theTrack
 		set playlistComment to {}
 		repeat with thePlaylist in tracksPlaylists
@@ -16,10 +23,11 @@ tell application "iTunes"
 			if playlistName is not "Artists" then set end of playlistComment to playlistName
 		end repeat
 		
-		-- If playlists were found and added to the list
 		if playlistComment is not {} then
 			set joinedList to my join(playlistComment, "/")
 			set comment of theTrack to joinedList
 		end if
-	end repeat
-end tell
+	end tell
+	
+	set progress completed steps to i
+end repeat

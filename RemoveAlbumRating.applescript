@@ -1,8 +1,4 @@
-set albumRatedTracks to {}
-
-tell application "iTunes"
-	set albumRatedTracks to every track whose album rating > 0
-end tell
+tell application "iTunes" to set albumRatedTracks to every track whose album rating > 0
 
 set trackCount to count of albumRatedTracks
 set progress total steps to trackCount

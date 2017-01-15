@@ -5,14 +5,19 @@ to split(someText, delimiter)
 	return someText
 end split
 
-tell application "iTunes"
-	set allTracks to selection
-	set allPlaylists to name of user playlists
+tell application "iTunes" to set allTracks to every track whose comments is not ""
+tell application "iTunes" to set allPlaylists to name of user playlists
+set trackCount to count of allTracks
+
+set progress total steps to trackCount
+set progress description to "Building playlists from comments..."
+
+repeat with i from 1 to trackCount
+	set theTrack to item i of allTracks
 	
-	repeat with theTrack in allTracks
+	tell application "iTunes"
 		set tracksComment to comment of theTrack
 		if tracksComment is not "" then
-			-- splits the comment into separate playlist names
 			set tracksPlaylists to my split(tracksComment, "/")
 			repeat with playlistName in tracksPlaylists
 				-- creates a new playlist if it doesnt already exist
@@ -21,5 +26,7 @@ tell application "iTunes"
 				duplicate theTrack to user playlist playlistName
 			end repeat
 		end if
-	end repeat
-end tell
+	end tell
+	
+	set progress completed steps to i
+end repeat

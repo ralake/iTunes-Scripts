@@ -1,17 +1,10 @@
-set allTracks to {}
-set trackCount to 0
-
-tell application "iTunes"
-	set allTracks to every track whose rating > 0
-	set trackCount to count of allTracks
-end tell
+tell application "iTunes" to set allTracks to every track whose rating > 0
+set trackCount to count of allTracks
 
 set progress total steps to trackCount
 set progress description to "Convert rating to grouping..."
 
 repeat with i from 1 to trackCount
-	set trackName to ""
-	
 	tell application "iTunes"
 		set currentTrack to item i of allTracks
 		set trackRating to rating of currentTrack as number
