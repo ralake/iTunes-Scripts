@@ -1,3 +1,5 @@
+-- progress bar download - http://macscripter.net/viewtopic.php?id=36409
+
 on locateiPod()
 	set the volumes_directory to "/Volumes/" as POSIX file as alias
 	set the volume_names to list folder volumes_directory without invisibles
@@ -55,7 +57,11 @@ on addTrackToiPod(theTrack, theiPod, thePlaylist, shouldDelete)
 	tell application "iTunes"
 		duplicate theTrack to theiPod
 		if rating of theTrack > 0 then duplicate theTrack to thePlaylist
-		if shouldDelete then delete theTrack
+		if shouldDelete then
+			set trackLocation to location of theTrack
+			delete theTrack
+			tell application "Finder" to delete trackLocation
+		end if
 	end tell
 end addTrackToiPod
 
