@@ -8,7 +8,7 @@ Helper scripts to automate iTunes tasks
 alias comments-to-playlists='to-itunes-scripts && osascript CommentsToPlaylists.scpt'
 alias groupings-to-ratings='to-itunes-scripts && osascript GroupingsToRatings.scpt'
 alias itunes-commands='echo -e "to-itunes-scripts\nnew-to-ipod\nplaylists-to-comments\nratings-to-groupings\ngroupings-to-ratings\nsort-flacs-needed\nsave-to-metadata\nread-from-metadata\ncomments-to-playlists\nremove-album-ratings"'
-alias new-to-ipod='to-itunes-scripts && osascript MoveNewMusicToIPod.scpt'
+alias new-to-ipod='to-itunes-scripts && osascript NewToiPod.scpt'
 alias playlists-to-comments='to-itunes-scripts && osascript PlaylistsToComments.scpt'
 alias ratings-to-groupings='to-itunes-scripts && osascript RatingsToGroupings.scpt'
 alias read-from-metadata='to-itunes-scripts && osascript ReadFromMetaData.scpt'
