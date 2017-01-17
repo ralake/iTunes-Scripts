@@ -1,8 +1,6 @@
 tell application "Finder" to set helpersPath to ((container of (path to me) as text) & "Helpers.scpt")
 set helpers to (load script file helpersPath)
-
 set iconPath to (path to applications folder as text) & "iTunes.app:Contents:Resources:iTunes.icns"
-
 tell application "iTunes" to set allTracks to every track whose comment is not ""
 set trackCount to count of allTracks
 
@@ -34,7 +32,7 @@ tell application "SKProgressBar"
 				set tracksComment to comment of theTrack
 				if tracksComment is not "" then
 					tell helpers to set tracksPlaylists to split(tracksComment, "/")
-					log tracksPlaylists
+					
 					repeat with playlistName in tracksPlaylists
 						tell application "iTunes" to set allUserPlaylists to name of user playlists
 						tell helpers to set splitPlaylist to split(playlistName, "*")
@@ -65,5 +63,6 @@ tell application "SKProgressBar"
 		quit
 	on error errStr number errorNumber
 		quit
+		display dialog errStr
 	end try
 end tell

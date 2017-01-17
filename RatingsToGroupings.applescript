@@ -38,5 +38,6 @@ tell application "SKProgressBar"
 		quit
 	on error errStr number errorNumber
 		quit
+		display dialog errStr
 	end try
 end tell

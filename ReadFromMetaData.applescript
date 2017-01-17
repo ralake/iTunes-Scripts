@@ -10,7 +10,7 @@ tell application "SKProgressBar"
 		set minimum value to 0.0
 		set maximum value to trackCount
 		set current value to 0
-		set header to "Saving playlists to comments..."
+		set header to "Reading ratings and playlists from metadata..."
 		set header alignment to center
 		set header size to regular
 		set footer alignment to center
@@ -25,27 +25,17 @@ tell application "SKProgressBar"
 	end tell
 	
 	try
+		
 		repeat with i from 1 to trackCount
 			set theTrack to item i of allTracks
-			
 			tell application "iTunes"
-				set tracksPlaylists to the playlists of theTrack
-				set playlistComment to {}
-				repeat with thePlaylist in tracksPlaylists
-					set playlistName to name of the thePlaylist as string
-					
-					try
-						set parentName to ((the name of thePlaylist's parent) as string)
-						set playlistName to parentName & "*" & playlistName
-					end try
-					
-					if playlistName is not "Artists" then set end of playlistComment to playlistName
-				end repeat
+				set trackLocation to location of theTrack
+				set trackPath to quoted form of POSIX path of trackLocation as string
+				tell helpers to set trackRating to getMetaData("trackRating", trackPath)
+				tell helpers to set trackPlaylists to getMetaData("trackPlaylists", trackPath)
 				
-				if playlistComment is not {} then
-					tell helpers to set joinedList to join(playlistComment, "/")
-					set comment of theTrack to joinedList
-				end if
+				if trackRating is not null then set rating of theTrack to trackRating
+				if trackPlaylists is not null then set comment of theTrack to trackPlaylists
 			end tell
 			
 			tell main bar to increment by 1
