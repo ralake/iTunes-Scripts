@@ -2,6 +2,7 @@ tell application "Finder" to set helpersPath to ((container of (path to me) as t
 set helpers to (load script file helpersPath)
 
 tell application "iTunes"
+	with timeout of 6000 seconds
 	set allTracks to every track in user playlist "Put on iPod"
 	set alliPods to every source whose kind is iPod
 	set myiPod to first item of alliPods
@@ -33,4 +34,5 @@ tell application "iTunes"
 			tell helpers to removeTrackFromPlaylist(losslessTrack, putOniPodPlaylist)
 		end repeat
 	end if
+	end timeout
 end tell
